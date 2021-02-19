@@ -249,15 +249,25 @@ public class EmbeddedSQL {
    }//end QueryExample
    
    public static void Query1(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try{
+         String query = "SELECT sname, count(*) FROM Suppliers JOIN Catalog ON Catalog.sid = Suppliers.sid JOIN Parts ON Parts.pid = Catalog.pid GROUP by sname;";
+
+         int rowCount = esql.executeQuery(query);
+         System.out.println ("total row(s): " + rowCount);
+      }catch(Exception e){
+         System.err.println (e.getMessage());
+      }
    }//end Query1
 
    public static void Query2(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+   	try{
+         String query = "SELECT sname, count(*) as \"num of parts\" FROM Suppliers JOIN Catalog ON Catalog.sid = Suppliers.sid JOIN Parts ON Parts.pid = Catalog.pid GROUP by sname HAVING count(*) >= 3;";
+         int rowCount = esql.executeQuery(query);
+         System.out.println ("total row(s): " + rowCount);
+      }catch(Exception e){
+         System.err.println (e.getMessage());
+      }
+
    }//end Query2
 
    public static void Query3(EmbeddedSQL esql){
