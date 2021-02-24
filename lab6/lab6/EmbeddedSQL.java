@@ -282,8 +282,7 @@ public class EmbeddedSQL {
 
    public static void Query4(EmbeddedSQL esql){
       try{
-         String query = "SELECT sname,max FROM Suppliers JOIN (SELECT sid,Max(cost) From Catalog WHERE sid = ANY (SELECT C.sid From Catalog C, Parts P WHERE C.pid = P.pid and P.color = 'Red' INTERSECT SELECT C1.sid FROM Catalog C1, Parts P1 WHERE C1.pid = P1.pid AND P1.color = 'Green') GROUP BY sid) AS foo ON Suppliers.sid = foo.sid;
-";
+         String query = "SELECT sname,max FROM Suppliers JOIN (SELECT sid,Max(cost) From Catalog WHERE sid = ANY (SELECT C.sid From Catalog C, Parts P WHERE C.pid = P.pid and P.color = 'Red' INTERSECT SELECT C1.sid FROM Catalog C1, Parts P1 WHERE C1.pid = P1.pid AND P1.color = 'Green') GROUP BY sid) AS foo ON Suppliers.sid = foo.sid;";
          int rowCount = esql.executeQuery(query);
          System.out.println ("total row(s): " + rowCount);
       }catch(Exception e){
