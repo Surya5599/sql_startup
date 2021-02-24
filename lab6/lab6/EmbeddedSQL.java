@@ -309,7 +309,7 @@ public class EmbeddedSQL {
          String query = "SELECT address FROM Suppliers S, Parts P, Catalog C WHERE S.sid = C.sid AND C.pid = P.pid AND P.pname = ";
          System.out.print("\tEnter cost: $");
          String input = in.readLine();
-         query += input;
+         query += "'" + input + "'";
 
          int rowCount = esql.executeQuery(query);
          System.out.println ("total row(s): " + rowCount);
