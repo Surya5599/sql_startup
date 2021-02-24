@@ -272,7 +272,7 @@ public class EmbeddedSQL {
 
    public static void Query3(EmbeddedSQL esql){
      try{
-         String query = "SELECT sname, count(*) FROM Suppliers JOIN Catalog ON Catalog.sid = Suppliers.sid JOIN Parts ON Parts.pid = Catalog.pid WHERE sname = ALL (SELECT sname FROM Suppliers WHERE sid = ALL (SELECT sid FROM Catalog WHERE pid = ALL (SELECT pid FROM PARTS where color = 'Green'))) GROUP by sname;";
+         String query = "SELECT S.sname, COUNT(*) FROM Suppliers S, Parts P, Catalog C WHERE P.pid = C.pid AND S.sid = C.sid AND S.sid IN (SELECT S.sid FROM Suppliers S, Parts P, Catalog C WHERE P.pid = C.pid AND S.sid = C.sid AND P.color = 'Green' EXCEPT SELECT S.sid FROM Suppliers S, Parts P, Catalog C WHERE P.pid = C.pid AND S.sid = C.sid AND P.color != 'Green') GROUP BY S.sid;";
          int rowCount = esql.executeQuery(query);
          System.out.println ("total row(s): " + rowCount);
       }catch(Exception e){
