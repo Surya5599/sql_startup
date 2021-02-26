@@ -11,9 +11,14 @@ SELECT * FROM supplier S WHERE
 (SELECT SUM(PN.on_hand) FROM part_nyc PN WHERE PN.supplier = S.supplier_id) >
 (SELECT SUM(PS.on_hand) FROM part_sfo PS WHERE PS.supplier = S.supplier_id);
 
-SELECT DISTINCT supplier_name FROM supplier S, part_nyc WHERE S.supplier_id = supplier AND part_number IN
-(
-SELECT part_number FROM supplier S, part_nyc PN WHERE S.supplier_id = PN.supplier
+SELECT DISTINCT S.supplier_name FROM supplier S, part_nyc PN1 WHERE PN1.part_number IN
+(SELECT PN.part_number FROM supplier S, part_nyc PN WHERE S.supplier_id = PN.supplier
 EXCEPT
-SELECT part_number FROM supplier S, part_sfo PS WHERE S.supplier_id = PS.supplier
-)
+SELECT PS.part_number FROM supplier S, part_sfo PS WHERE S.supplier_id = PS.supplier);
+
+UPDATE part_nyc
+SET on_hand = on_hand -10
+WHERE on_hand >= 10;
+
+DELETE FROM part_nyc
+WHERE on_hand < 30;
