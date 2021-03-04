@@ -1,0 +1,113 @@
+DROP TABLE Customer  IF EXISTS;
+DROP TABLE  Cruise IF EXISTS;
+DROP TABLE Schedule IF EXISTS;
+DROP TABLE Ship  IF EXISTS;
+DROP TABLE  Technician IF EXISTS;
+DROP TABLE Captain IF EXISTS;
+DROP TABLE Crew  IF EXISTS;
+DROP TABLE  Reservation IF EXISTS;
+DROP TABLE Waitlist IF EXISTS;
+DROP TABLE Confirmed IF EXISTS;
+DROP TABLE  Reservation IF EXISTS;
+DROP TABLE Waitlist IF EXISTS;
+DROP TABLE Confirmed IF EXISTS;
+DROP TABLE  Reserved IF EXISTS;
+DROP TABLE  Has IF EXISTS;
+DROP TABLE  Works IF EXISTS;
+DROP TABLE  Repairs IF EXISTS;
+DROP TABLE Request IF EXISTS;
+
+CREATE TABLE  Customer ( first_name CHAR(30),
+Last_name CHAR(30),
+gender CHAR(30),
+date_of_birth CHAR(10),
+Address CHAR(30),
+Contact_num CHAR(13),
+ID INTEGER,
+ZIP_code CHAR(10),
+PRIMARY KEY(ID));
+
+CREATE TABLE Cruise ( c-num INTEGER,
+captain_ID INTEGER NOT NULL,
+ship_ID INTEGER NOT NULL,
+cost FLOAT,
+num_sold INTEGER,
+num_stops INTEGER,
+actual_arrive_date CHAR(10),
+actual_arrive_time CHAR(8),
+actual_depart_date CHAR(10),
+actual_depart_time CHAR(8),
+source CHAR(30), 
+destination CHAR(30),
+PRIMARY KEY(c-num) ,
+FOREIGN KEY(captain_ID) REFERENCES Captain(captain_ID),
+FOREIGN KEY(ship_ID) REFERENCES Ship(ship_ID));
+
+CREATE TABLE Schedule (ID INTEGER,
+c-num INTEGER,
+day CHAR(10),
+depart_time CHAR(8),
+arrive_time CHAR(8),
+PRIMARY KEY(c-num, day),
+FOREIGN KEY(c-num) REFERENCES Cruise(c-num) ON DELETE CASCADE);
+
+CREATE TABLE  Ship ( model CHAR(30),
+ ID INTEGER,
+make CHAR(30),
+age INTEGER,
+seats INTEGER
+PRIMARY KEY(ID));
+
+CREATE TABLE Technician ( ID INTEGER,
+PRIMARY KEY(ID));
+
+CREATE TABLE Captain ( ID INTEGER,
+name char(30),
+PRIMARY KEY(ID));
+
+CREATE TABLE Crew (ID INTEGER,
+name CHAR(30)
+PRIMARY KEY(ID));
+
+CREATE TABLE Reservation( Rnum INTEGER,
+PRIMARY KEY(Rnum));
+
+CREATE TABLE Waitlist( W_Rnum INTEGER,
+PRIMARY KEY(W_Rnum), 
+    FOREIGN KEY(W_Rnum) REFERENCES Reservation(Rnum));
+
+CREATE TABLE Confirmed( C_Rnum INTEGER,
+           PRIMARY KEY(C_Rnum), 
+FOREIGN KEY(C_Rnum) REFERENCES Reservation(Rnum));
+
+CREATE TABLE Reserved( R_Rnum INTEGER,
+    PRIMARY KEY(R_Rnum) ,
+FOREIGN KEY(R_Rnum) REFERENCES Reservation(Rnum));
+CREATE TABLE Has (ID INTEGER,
+c-num INTEGER,
+Rnum INTEGER,
+PRIMARY KEY (ID, Rnum),
+FOREIGN KEY(c-num) REFERENCES Cruise(c-num),
+FOREIGN KEY(ID) REFERENCES Customer (ID),
+FOREIGN KEY(Rnum) REFERENCES Reservation(Rnum));
+
+CREATE TABLE Works (ID INTEGER,
+c-num INTEGER,
+PRIMARY KEY(ID, c-num),
+      FOREIGN KEY(c-num) REFERENCES Cruise(c-num),
+FOREIGN KEY(ID) REFERENCES Crew (ID));
+
+CREATE TABLE Repairs (tech_ID INTEGER,
+ship_ID INTEGER,
+code INTEGER,
+date CHAR(10),
+PRIMARY KEY(tech_ID, ship_ID),
+FOREIGN KEY(tech_ID) REFERENCES Tech(tech_ID),
+FOREIGN KEY(ship_ID) REFERENCES Ship(ship_ID));
+
+CREATE TABLE Request (tech_ID INTEGER,
+ship_ID INTEGER,
+ID INTEGER,
+PRIMARY KEY(ID),
+FOREIGN KEY(tech_ID) REFERENCES Tech(tech_ID),
+FOREIGN KEY(ship_ID) REFERENCES Ship(ship_ID));
