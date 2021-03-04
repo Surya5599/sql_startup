@@ -26,7 +26,18 @@ CREATE TABLE  Customer ( first_name CHAR(30),
 		ID INTEGER,
 		ZIP_code CHAR(10),
 		PRIMARY KEY(ID));
-
+			    
+CREATE TABLE Captain ( ID INTEGER,
+		name char(30),
+		PRIMARY KEY(ID));
+			    
+CREATE TABLE  Ship ( model CHAR(30),
+		ID INTEGER,
+		make CHAR(30),
+		age INTEGER,
+		seats INTEGER
+		PRIMARY KEY(ID));
+			    
 CREATE TABLE Cruise ( c_num INTEGER,
 		captain_ID INTEGER NOT NULL,
 		ship_ID INTEGER NOT NULL,
@@ -51,19 +62,12 @@ CREATE TABLE Schedule (ID INTEGER,
 		PRIMARY KEY(c_num, day),
 		FOREIGN KEY(c_num) REFERENCES Cruise(c_num) ON DELETE CASCADE);
 
-CREATE TABLE  Ship ( model CHAR(30),
-		ID INTEGER,
-		make CHAR(30),
-		age INTEGER,
-		seats INTEGER
-		PRIMARY KEY(ID));
+
 
 CREATE TABLE Technician ( ID INTEGER,
 		PRIMARY KEY(ID));
 
-CREATE TABLE Captain ( ID INTEGER,
-		name char(30),
-		PRIMARY KEY(ID));
+
 
 CREATE TABLE Crew (ID INTEGER,
 		name CHAR(30)
