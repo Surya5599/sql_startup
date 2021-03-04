@@ -18,98 +18,98 @@ DROP TABLE IF EXISTS  Repairs CASCADE;
 DROP TABLE IF EXISTS Request CASCADE;
 
 CREATE TABLE  Customer ( first_name CHAR(30),
-Last_name CHAR(30),
-gender CHAR(30),
-date_of_birth CHAR(10),
-Address CHAR(30),
-Contact_num CHAR(13),
-ID INTEGER,
-ZIP_code CHAR(10),
-PRIMARY KEY(ID));
+		Last_name CHAR(30),
+		gender CHAR(30),
+		date_of_birth CHAR(10),
+		Address CHAR(30),
+		Contact_num CHAR(13),
+		ID INTEGER,
+		ZIP_code CHAR(10),
+		PRIMARY KEY(ID));
 
 CREATE TABLE Captain ( ID INTEGER,
-name char(30),
-PRIMARY KEY(ID));
+		name char(30),
+		PRIMARY KEY(ID));
 
 CREATE TABLE  Ship ( model CHAR(30),
- ID INTEGER,
-make CHAR(30),
-age INTEGER,
-seats INTEGER,
-PRIMARY KEY(ID));
+		ID INTEGER,
+		make CHAR(30),
+		age INTEGER,
+		seats INTEGER,
+		PRIMARY KEY(ID));
 
 CREATE TABLE Cruise ( c_num INTEGER,
-captain_ID INTEGER NOT NULL,
-ship_ID INTEGER NOT NULL,
-cost FLOAT,
-num_sold INTEGER,
-num_stops INTEGER,
-actual_arrive_date CHAR(10),
-actual_arrive_time CHAR(8),
-actual_depart_date CHAR(10),
-actual_depart_time CHAR(8),
-source CHAR(30), 
-destination CHAR(30),
-PRIMARY KEY(c_num) ,
-FOREIGN KEY(captain_ID) REFERENCES Captain(ID),
-FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
+		captain_ID INTEGER NOT NULL,
+		ship_ID INTEGER NOT NULL,
+		cost FLOAT,
+		num_sold INTEGER,
+		num_stops INTEGER,
+		actual_arrive_date CHAR(10),
+		actual_arrive_time CHAR(8),
+		actual_depart_date CHAR(10),
+		actual_depart_time CHAR(8),
+		source CHAR(30), 
+		destination CHAR(30),
+		PRIMARY KEY(c_num) ,
+		FOREIGN KEY(captain_ID) REFERENCES Captain(ID),
+		FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
 
 CREATE TABLE Schedule (ID INTEGER,
-c_num INTEGER,
-day CHAR(10),
-depart_time CHAR(8),
-arrive_time CHAR(8),
-PRIMARY KEY(c_num, day),
-FOREIGN KEY(c_num) REFERENCES Cruise(c_num) ON DELETE CASCADE);
+		c_num INTEGER,
+		day CHAR(10),
+		depart_time CHAR(8),
+		arrive_time CHAR(8),
+		PRIMARY KEY(c_num, day),
+		FOREIGN KEY(c_num) REFERENCES Cruise(c_num) ON DELETE CASCADE);
 
 
 CREATE TABLE Technician ( ID INTEGER,
-PRIMARY KEY(ID));
+		PRIMARY KEY(ID));
 
 
 CREATE TABLE Crew (ID INTEGER,
-name CHAR(30),
-PRIMARY KEY(ID));
+		name CHAR(30),
+		PRIMARY KEY(ID));
 
 CREATE TABLE Reservation( Rnum INTEGER,
-PRIMARY KEY(Rnum));
+		PRIMARY KEY(Rnum));
 
 CREATE TABLE Waitlist( W_Rnum INTEGER,
-PRIMARY KEY(W_Rnum), 
-    FOREIGN KEY(W_Rnum) REFERENCES Reservation(Rnum));
+		PRIMARY KEY(W_Rnum), 
+		FOREIGN KEY(W_Rnum) REFERENCES Reservation(Rnum));
 
 CREATE TABLE Confirmed( C_Rnum INTEGER,
-           PRIMARY KEY(C_Rnum), 
-FOREIGN KEY(C_Rnum) REFERENCES Reservation(Rnum));
+		PRIMARY KEY(C_Rnum), 
+		FOREIGN KEY(C_Rnum) REFERENCES Reservation(Rnum));
 
 CREATE TABLE Reserved( R_Rnum INTEGER,
-    PRIMARY KEY(R_Rnum) ,
-FOREIGN KEY(R_Rnum) REFERENCES Reservation(Rnum));
+		PRIMARY KEY(R_Rnum) ,
+		FOREIGN KEY(R_Rnum) REFERENCES Reservation(Rnum));
 CREATE TABLE Has (ID INTEGER,
-c_num INTEGER,
-Rnum INTEGER,
-PRIMARY KEY (ID, Rnum),
-FOREIGN KEY(c_num) REFERENCES Cruise(c_num),
-FOREIGN KEY(ID) REFERENCES Customer (ID),
-FOREIGN KEY(Rnum) REFERENCES Reservation(Rnum));
+		c_num INTEGER,
+		Rnum INTEGER,
+		PRIMARY KEY (ID, Rnum),
+		FOREIGN KEY(c_num) REFERENCES Cruise(c_num),
+		FOREIGN KEY(ID) REFERENCES Customer (ID),
+		FOREIGN KEY(Rnum) REFERENCES Reservation(Rnum));
 
 CREATE TABLE Works (ID INTEGER,
-c_num INTEGER,
-PRIMARY KEY(ID, c_num),
-      FOREIGN KEY(c_num) REFERENCES Cruise(c_num),
-FOREIGN KEY(ID) REFERENCES Crew (ID));
+		c_num INTEGER,
+		PRIMARY KEY(ID, c_num),
+		FOREIGN KEY(c_num) REFERENCES Cruise(c_num),
+		FOREIGN KEY(ID) REFERENCES Crew (ID));
 
 CREATE TABLE Repairs (tech_ID INTEGER,
-ship_ID INTEGER,
-code INTEGER,
-date CHAR(10),
-PRIMARY KEY(tech_ID, ship_ID),
-FOREIGN KEY(tech_ID) REFERENCES Technician (ID),
-FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
+		ship_ID INTEGER,
+		code INTEGER,
+		date CHAR(10),
+		PRIMARY KEY(tech_ID, ship_ID),
+		FOREIGN KEY(tech_ID) REFERENCES Technician (ID),
+		FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
 
 CREATE TABLE Request (tech_ID INTEGER,
-ship_ID INTEGER,
-ID INTEGER,
-PRIMARY KEY(ID),
-FOREIGN KEY(tech_ID) REFERENCES Technician (ID),
-FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
+		ship_ID INTEGER,
+		ID INTEGER,
+		PRIMARY KEY(ID),
+		FOREIGN KEY(tech_ID) REFERENCES Technician (ID),
+		FOREIGN KEY(ship_ID) REFERENCES Ship(ID));
