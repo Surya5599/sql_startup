@@ -35,7 +35,7 @@ CREATE TABLE  Ship ( model CHAR(30),
 		ID INTEGER,
 		make CHAR(30),
 		age INTEGER,
-		seats INTEGER
+		seats INTEGER,
 		PRIMARY KEY(ID));
 			    
 CREATE TABLE Cruise ( c_num INTEGER,
